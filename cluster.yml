@@ -1,0 +1,7 @@
+nodes:
+    - address: 192.168.33.13
+      user: vagrant
+      role:
+        - controlplane
+        - etcd
+        - worker
