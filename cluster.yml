@@ -1,6 +1,9 @@
 nodes:
-    - address: 192.168.33.13
+    - address: 192.168.1.50
+    - address: 192.168.1.51
+    - address: 192.168.1.52
       user: vagrant
+      ssh_key_path: "/home/vagrant/.ssh/id_rsa"
       role:
         - controlplane
         - etcd
