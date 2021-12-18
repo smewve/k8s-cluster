@@ -9,20 +9,32 @@ Vagrant.configure("2") do |config|
     config.vm.provision "file", source: "./install_rancher.sh", destination: "/home/vagrant/install_rancher.sh"
     config.vm.provision "file", source: "./install_cert_mgr.sh", destination: "/home/vagrant/install_cert_mgr.sh"
     config.vm.provision "file", source: "./install_rancher2.sh", destination: "/home/vagrant/install_rancher2.sh"
-config.vm.provision "file", source: "./copy-ssh-keys.sh", destination: "/home/vagrant/copy-ssh-keys.sh"
+    #config.vm.provision "file", source: "./copy-ssh-keys.sh", destination: "/home/vagrant/copy-ssh-keys.sh"
+    w.vm.provision "shell" do |s|
+        ssh_pub_key = File.readlines("/home/heath/src/k8s-cluster/.ssh/vagrant_rsa.pub").first.strip
+        s.inline = <<-SHELL
+        echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+        echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
+    SHELL
     config.vm.define "master" do | w |
         w.vm.hostname = "master"
-        #w.vm.network "public_network", ip: "192.168.33.13", bridge: "enp10s0f0"
         w.vm.network "public_network", ip: "192.168.1.50", bridge: "enp10s0f0"
         w.vm.provider "virtualbox" do |vb|
-            vb.memory = "4096"
-            vb.cpus = 2
+            vb.memory = "6144"
+            vb.cpus = 4
             vb.name = "master"
         end
         w.vm.provision "shell", inline: <<-SHELL
             apt-get update
             apt-get install -y git wget vim curl
         SHELL
+        w.vm.provision "shell" do |s|
+            ssh_pub_key = File.readlines("/home/heath/src/k8s-cluster/.ssh/vagrant_rsa.pub").first.strip
+            s.inline = <<-SHELL
+            echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+            echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
+        SHELL
+        end
         w.vm.provision "setup-hosts", :type => "shell", :path => "general-setup-master.sh" do |s|
         end
         w.vm.provision "setup-rke", :type => "shell", privileged: false, :path => "rke-setup-master.sh" do |s|
@@ -34,14 +46,21 @@ config.vm.provision "file", source: "./copy-ssh-keys.sh", destination: "/home/va
         w.vm.hostname = "master2"
         w.vm.network "public_network", ip: "192.168.1.51", bridge: "enp10s0f0"
         w.vm.provider "virtualbox" do |vb|
-            vb.memory = "4096"
-            vb.cpus = 2
+            vb.memory = "6144"
+            vb.cpus = 4
             vb.name = "master2"
         end
         w.vm.provision "shell", inline: <<-SHELL
             apt-get update
             apt-get install -y git wget vim curl
         SHELL
+        w.vm.provision "shell" do |s|
+            ssh_pub_key = File.readlines("/home/heath/src/k8s-cluster/.ssh/vagrant_rsa.pub").first.strip
+            s.inline = <<-SHELL
+            echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+            echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
+        SHELL
+        end
         w.vm.provision "setup-hosts", :type => "shell", :path => "general-setup-master.sh" do |s|
         end
         w.vm.provision "setup-rke", :type => "shell", privileged: false, :path => "rke-setup-master.sh" do |s|
@@ -53,14 +72,21 @@ config.vm.provision "file", source: "./copy-ssh-keys.sh", destination: "/home/va
         w.vm.hostname = "master3"
         w.vm.network "public_network", ip: "192.168.1.52", bridge: "enp10s0f0"
         w.vm.provider "virtualbox" do |vb|
-            vb.memory = "4096"
-            vb.cpus = 2
+            vb.memory = "6144"
+            vb.cpus = 4
             vb.name = "master3"
         end
         w.vm.provision "shell", inline: <<-SHELL
             apt-get update
             apt-get install -y git wget vim curl
         SHELL
+        w.vm.provision "shell" do |s|
+            ssh_pub_key = File.readlines("/home/heath/src/k8s-cluster/.ssh/vagrant_rsa.pub").first.strip
+            s.inline = <<-SHELL
+            echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+            echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
+        SHELL
+        end
         w.vm.provision "setup-hosts", :type => "shell", :path => "general-setup-master.sh" do |s|
         end
         w.vm.provision "setup-rke", :type => "shell", privileged: false, :path => "rke-setup-master.sh" do |s|

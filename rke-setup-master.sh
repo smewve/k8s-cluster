@@ -9,11 +9,11 @@ chmod 755 get-docker.sh
 get-docker.sh
 sudo sh get-docker.sh
 
-ssh-keygen -f /home/vagrant/.ssh/id_rsa -N ""
-cat /home/vagrant/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
-chown vagrant /home/vagrant/.ssh/authorized_keys
-chown vagrant /home/vagrant/.ssh/id_rsa
-chown vagrant /home/vagrant/.ssh/id_rsa.pub
+#ssh-keygen -f /home/vagrant/.ssh/id_rsa -N ""
+#cat /home/vagrant/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
+#chown vagrant /home/vagrant/.ssh/authorized_keys
+#chown vagrant /home/vagrant/.ssh/id_rsa
+#chown vagrant /home/vagrant/.ssh/id_rsa.pub
 
 
 ### RKE ###
