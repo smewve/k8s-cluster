@@ -10,12 +10,6 @@ Vagrant.configure("2") do |config|
     config.vm.provision "file", source: "./install_cert_mgr.sh", destination: "/home/vagrant/install_cert_mgr.sh"
     config.vm.provision "file", source: "./install_rancher2.sh", destination: "/home/vagrant/install_rancher2.sh"
     #config.vm.provision "file", source: "./copy-ssh-keys.sh", destination: "/home/vagrant/copy-ssh-keys.sh"
-    w.vm.provision "shell" do |s|
-        ssh_pub_key = File.readlines("/home/heath/src/k8s-cluster/.ssh/vagrant_rsa.pub").first.strip
-        s.inline = <<-SHELL
-        echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
-        echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
-    SHELL
     config.vm.define "master" do | w |
         w.vm.hostname = "master"
         w.vm.network "public_network", ip: "192.168.1.50", bridge: "enp10s0f0"
@@ -27,12 +21,6 @@ Vagrant.configure("2") do |config|
         w.vm.provision "shell", inline: <<-SHELL
             apt-get update
             apt-get install -y git wget vim curl
-        SHELL
-        w.vm.provision "shell" do |s|
-            ssh_pub_key = File.readlines("/home/heath/src/k8s-cluster/.ssh/vagrant_rsa.pub").first.strip
-            s.inline = <<-SHELL
-            echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
-            echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
         SHELL
         end
         w.vm.provision "setup-hosts", :type => "shell", :path => "general-setup-master.sh" do |s|
@@ -54,12 +42,6 @@ Vagrant.configure("2") do |config|
             apt-get update
             apt-get install -y git wget vim curl
         SHELL
-        w.vm.provision "shell" do |s|
-            ssh_pub_key = File.readlines("/home/heath/src/k8s-cluster/.ssh/vagrant_rsa.pub").first.strip
-            s.inline = <<-SHELL
-            echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
-            echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
-        SHELL
         end
         w.vm.provision "setup-hosts", :type => "shell", :path => "general-setup-master.sh" do |s|
         end
@@ -79,12 +61,6 @@ Vagrant.configure("2") do |config|
         w.vm.provision "shell", inline: <<-SHELL
             apt-get update
             apt-get install -y git wget vim curl
-        SHELL
-        w.vm.provision "shell" do |s|
-            ssh_pub_key = File.readlines("/home/heath/src/k8s-cluster/.ssh/vagrant_rsa.pub").first.strip
-            s.inline = <<-SHELL
-            echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
-            echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
         SHELL
         end
         w.vm.provision "setup-hosts", :type => "shell", :path => "general-setup-master.sh" do |s|
