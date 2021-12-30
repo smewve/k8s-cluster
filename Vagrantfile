@@ -9,6 +9,7 @@ Vagrant.configure("2") do |config|
     config.vm.provision "file", source: "./install_rancher.sh", destination: "/home/vagrant/install_rancher.sh"
     config.vm.provision "file", source: "./install_cert_mgr.sh", destination: "/home/vagrant/install_cert_mgr.sh"
     config.vm.provision "file", source: "./install_rancher2.sh", destination: "/home/vagrant/install_rancher2.sh"
+    config.vm.provision "file", source: "./manage-ssh-keys.sh", destination: "/home/vagrant/manage-ssh-keys.sh"
     #config.vm.provision "file", source: "./copy-ssh-keys.sh", destination: "/home/vagrant/copy-ssh-keys.sh"
     config.vm.define "master" do | w |
         w.vm.hostname = "master"
@@ -22,7 +23,6 @@ Vagrant.configure("2") do |config|
             apt-get update
             apt-get install -y git wget vim curl
         SHELL
-        end
         w.vm.provision "setup-hosts", :type => "shell", :path => "general-setup-master.sh" do |s|
         end
         w.vm.provision "setup-rke", :type => "shell", privileged: false, :path => "rke-setup-master.sh" do |s|
@@ -42,7 +42,6 @@ Vagrant.configure("2") do |config|
             apt-get update
             apt-get install -y git wget vim curl
         SHELL
-        end
         w.vm.provision "setup-hosts", :type => "shell", :path => "general-setup-master.sh" do |s|
         end
         w.vm.provision "setup-rke", :type => "shell", privileged: false, :path => "rke-setup-master.sh" do |s|
@@ -62,13 +61,9 @@ Vagrant.configure("2") do |config|
             apt-get update
             apt-get install -y git wget vim curl
         SHELL
-        end
         w.vm.provision "setup-hosts", :type => "shell", :path => "general-setup-master.sh" do |s|
         end
         w.vm.provision "setup-rke", :type => "shell", privileged: false, :path => "rke-setup-master.sh" do |s|
         end
- 
     end
-
-   
 end
