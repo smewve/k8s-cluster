@@ -1,5 +1,6 @@
 yes y |ssh-keygen -f /home/vagrant/.ssh/id_rsa -t rsa -N ''
 
-sshpass -p vagrant ssh-copy-id master
-sshpass -p vagrant ssh-copy-id master2
-sshpass -p vagrant ssh-copy-id master3
+sudo sshpass -p $1 ssh-copy-id -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa.pub vagrant@master
+sudo sshpass -p $1 ssh-copy-id -o StrictHostkeyChecking=no -i ~/.ssh/id_rsa.pub vagrant@master2
+sudo sshpass -p $1 ssh-copy-id -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa.pub vagrant@master3
+
