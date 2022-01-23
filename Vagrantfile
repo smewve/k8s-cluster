@@ -7,28 +7,19 @@
       :hostname => "master",
       :ip => "192.168.1.50",
       :network => "public_network",
-      :bridge => "enp10s0f1",
-      :provider => "virtualBox",
-      :cpus => 4,
-      :memory => 6144
+      :bridge => "enp10s0f1"
     },
     {
       :hostname => "master2",
       :ip => "192.168.1.51",
       :network => "public_network",
-      :bridge => "enp10s0f1",
-      :provider => "virtualBox",
-      :cpus => 4,
-      :memory => 6144
+      :bridge => "enp10s0f1"
     },
     {
       :hostname => "master3",
       :ip => "192.168.1.52",
       :network => "public_network",
-      :bridge => "enp10s0f1",
-      :provider => "virtualBox",
-      :cpus => 4,
-      :memory => 6144
+      :bridge => "enp10s0f1"
     }
   ]
 
@@ -37,19 +28,17 @@
     config.vm.box = "ubuntu/bionic64"
     config.vm.box_url = "file:///home/vagrant/vagrant_box/virtualbox.box"
     config.ssh.insert_key = false
-    
-    #config.vm.provision "file", source: "./copy-ssh-keys.sh", destination: "/home/vagrant/copy-ssh-keys.sh"
- 
+
+    config.vm.provider "virtualbox" do |vb|
+      vb.memory = 6144 
+      vb.cpus = 4
+    end
+
     servers.each do |server|
       config.vm.define server[:hostname] do | w |
         w.vm.hostname = server[:hostname]
         w.vm.network server[:network], ip: server[:ip], bridge: server[:bridge]
-        w.vm.provider server[:provider] do |vb|
-          vb.memory = server[:memory]
-          vb.cpus = server[:cpus]
-          vb.name = server[:hostname]
-        end
-        
+                
         w.ssh.private_key_path = [".ssh/vagrant_rsa", "~/.vagrant.d/insecure_private_key"]
         w.vm.provision "file", source: ".ssh/vagrant_rsa.pub", destination: "~/.ssh/authorized_keys"
         w.vm.provision "file", source: "./cluster.yml", destination: "/home/vagrant/cluster.yml"
